@@ -81,5 +81,12 @@ Hello!
 
 - https://jsonbase.com
 
+## TODO
+
+- [ ] See if https://medium.com/@alm.ozdmr/deployment-of-signalr-with-nginx-daf392cf2b93 can solve SignalR WebSocket problem behind NGINX.
+
+- [ ] Also, see https://github.com/aspnet/SignalR/issues/2829.
+
+
 
 
