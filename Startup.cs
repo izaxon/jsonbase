@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 namespace jsonbase
 {
     using Hubs;
-    
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -29,10 +29,11 @@ namespace jsonbase
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(options => options
-                .AllowAnyOrigin()
+                .SetIsOriginAllowed((string str) => true)
                 .AllowAnyMethod()
-                .AllowAnyHeader());
-                
+                .AllowAnyHeader()
+                .AllowCredentials());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

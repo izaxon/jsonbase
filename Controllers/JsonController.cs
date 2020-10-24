@@ -50,7 +50,7 @@ namespace jsonbase.Controllers
             {
                 var path = RequestPathToFilePath(Request.Path);
                 Save(path, data);
-                await _hub.Clients.All.SendUpdated(Request.Path);
+                await _hub.Clients.Groups(Request.Path).SendUpdated(Request.Path);
                 return Ok(data);
             }
             catch (Exception ex)
