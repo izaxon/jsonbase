@@ -8,6 +8,13 @@ An API based JSON storage implementation with dotnet core and Docker (ref. https
 
 Visit https://github.com/izaxon?tab=packages.
 
+## How do I run from the Windows command prompt?
+
+```cmd
+set ROOT_PATH=.
+dotnet run
+```
+
 ## How do I use jsonbase?
 
 1. Run jsonbase (either from the source code or the docker image).
@@ -15,14 +22,14 @@ Visit https://github.com/izaxon?tab=packages.
 2. Interact with the API using HTTP GET and PUT requests (see [test.http](./test.http)).
 
 ```bash
-curl -XPUT 'http://localhost:80/demo_bucket/hello' \
+curl -X PUT 'http://localhost:5000/demo_bucket/hello' \
 -H 'content-type: application/json' \
 -d '{"hello": "world"}'
 {"hello":"world"}
 ```
 
 ```bash
-curl 'http://localhost:80/demo_bucket/hello'
+curl 'http://localhost:5000/demo_bucket/hello'
 
 {"hello":"world"}
 ```
