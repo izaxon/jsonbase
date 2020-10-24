@@ -1,6 +1,8 @@
-### jsonbase
+# jsonbase
 
 An API based JSON storage implementation with dotnet core and Docker (ref. https://jsonbase.com).
+
+![Publish Docker image](https://github.com/izaxon/jsonbase/workflows/Publish%20Docker%20image/badge.svg)
 
 ## Where can I find the docker image?
 
