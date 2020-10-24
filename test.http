@@ -1,0 +1,36 @@
+###
+GET http://localhost:5000/test/johan
+
+###
+
+PUT http://localhost:5000/test/johan
+Content-Type: application/json
+
+{
+    "hello": "Johan"
+}
+
+###
+GET http://localhost/test/johan
+
+###
+
+PUT http://localhost/test/johan
+Content-Type: application/json
+
+{
+    "hello": "Johan"
+}
+
+###
+
+GET http://localhost:4000/test/johan
+
+###
+
+PUT http://localhost:4000/test/johan
+Content-Type: application/json
+
+{
+    "hello": "Running in Kubernetes"
+}

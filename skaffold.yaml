@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta7
+kind: Config
+metadata:
+  name: jsonbase
+build:
+  artifacts:
+    - image: jsonbase
+  tagPolicy:
+    sha256: {}
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/deployment.yaml
+      - kubernetes/ingress.yaml
+      - kubernetes/service.yaml
