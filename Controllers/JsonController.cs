@@ -4,6 +4,9 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
+using jsonbase.Hubs;
+using System.Threading.Tasks;
 
 namespace jsonbase.Controllers
 {
@@ -12,10 +15,12 @@ namespace jsonbase.Controllers
     public class JsonController : ControllerBase
     {
         private readonly ILogger<JsonController> _logger;
+        private readonly IHubContext<ApiHub, IApiHub> _hub;
 
-        public JsonController(ILogger<JsonController> logger)
+        public JsonController(ILogger<JsonController> logger, IHubContext<ApiHub, IApiHub> hub)
         {
             _logger = logger;
+            _hub = hub;
         }
 
         [HttpGet]
@@ -39,12 +44,13 @@ namespace jsonbase.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] dynamic data)
+        public async Task<IActionResult> Put([FromBody] dynamic data)
         {
             try
             {
                 var path = RequestPathToFilePath(Request.Path);
                 Save(path, data);
+                await _hub.Clients.All.SendUpdated(Request.Path);
                 return Ok(data);
             }
             catch (Exception ex)
