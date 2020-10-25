@@ -1,9 +1,9 @@
 ###
-GET http://localhost:5000/test/johan
+GET https://localhost:5001/test/johan
 
 ###
 
-PUT http://localhost:5000/test/johan
+PUT https://localhost:5001/test/johan
 Content-Type: application/json
 
 {
@@ -33,4 +33,17 @@ Content-Type: application/json
 
 {
     "hello": "Running in Kubernetes"
+}
+
+###
+
+GET https://jsonbase.izaxon.com/test/johan
+
+###
+
+PUT https://jsonbase.izaxon.com/test/johan
+Content-Type: application/json
+
+{
+    "hello": "Running on the internet"
 }
