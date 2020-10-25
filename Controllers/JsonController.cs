@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Cors;
 namespace jsonbase.Controllers
 {
     [ApiController]
-    [EnableCors]
+    [EnableCors("CorsPolicy")]
     [Route("{**slug}")]
     public class JsonController : ControllerBase
     {
