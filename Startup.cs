@@ -22,9 +22,9 @@ namespace jsonbase
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: "CorsPolicy", builder => builder
-                    // .SetIsOriginAllowed(str => true)
-                    .WithOrigins(new string[] { "https://react-ts-jsonbase.stackblitz.io" })
+                options.AddDefaultPolicy(builder => builder
+                    .SetIsOriginAllowed(str => true)
+                    // .WithOrigins(new string[] { "https://react-ts-jsonbase.stackblitz.io" })
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials());
@@ -45,7 +45,7 @@ namespace jsonbase
 
             app.UseRouting();
 
-            app.UseCors("CorsPolicy");
+            app.UseCors();
 
             app.UseAuthorization();
 
