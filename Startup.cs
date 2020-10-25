@@ -29,7 +29,7 @@ namespace jsonbase
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(options => options
-                .SetIsOriginAllowed((string str) => true)
+                .SetIsOriginAllowed(str => true)
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());

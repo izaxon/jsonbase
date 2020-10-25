@@ -7,10 +7,12 @@ using System.Text.Json;
 using Microsoft.AspNetCore.SignalR;
 using jsonbase.Hubs;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace jsonbase.Controllers
 {
     [ApiController]
+    [EnableCors]
     [Route("{**slug}")]
     public class JsonController : ControllerBase
     {
