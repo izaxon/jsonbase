@@ -23,7 +23,7 @@ namespace jsonbase
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "CorsPolicy", builder => builder
-                    .SetIsOriginAllowed(str => true)
+                    // .SetIsOriginAllowed(str => true)
                     .WithOrigins(new string[] { "https://react-ts-jsonbase.stackblitz.io" })
                     .AllowAnyMethod()
                     .AllowAnyHeader()
