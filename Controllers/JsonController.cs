@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 using Microsoft.AspNetCore.SignalR;
 using jsonbase.Hubs;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace jsonbase.Controllers
 {
@@ -58,24 +58,82 @@ namespace jsonbase.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            // TODO: return Ok(new
-            // {
-            //     Version = 1,
-            //     Data = data,
-            //     Path = Request.Path.ToString()
-            // });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] dynamic data)
+        {
+            try
+            {
+                var path = RequestPathToFilePath(Request.Path);
+                Update(path, data);
+                await _hub.Clients.Groups(Request.Path).SendUpdated(Request.Path);
+                data = Load(path);
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         private dynamic Load(string path)
         {
-            var json = System.IO.File.ReadAllText(path);
-            var data = JsonSerializer.Deserialize<dynamic>(json);
-            return data;
+            if (System.IO.File.Exists(path))
+            {
+                var json = System.IO.File.ReadAllText(path);
+                var data = System.Text.Json.JsonSerializer.Deserialize<dynamic>(json);
+                return data;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void Save(string path, dynamic data)
         {
-            System.IO.File.WriteAllText(path, JsonSerializer.Serialize(data));
+            System.IO.File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(data));
+        }
+
+        private void Update(string path, dynamic data)
+        {
+            if (System.IO.File.Exists(path))
+            {
+                var jsonExisting = System.IO.File.ReadAllText(path);
+                var jsonNew = System.Text.Json.JsonSerializer.Serialize(data);
+
+                try
+                {
+                    var o1 = JObject.Parse(jsonExisting);
+                    var o2 = JObject.Parse(jsonNew);
+                    o1.Merge(o2, new JsonMergeSettings
+                    {
+                        MergeArrayHandling = MergeArrayHandling.Union
+                    });
+                
+                    data = System.Text.Json.JsonSerializer.Deserialize<dynamic>(o1.ToString());                
+                }
+                catch
+                {
+                    var a1 = JArray.Parse(jsonExisting);
+                    var a2 = JArray.Parse(jsonNew);
+                    a1.Merge(a2, new JsonMergeSettings
+                    {
+                        MergeArrayHandling = MergeArrayHandling.Union
+                    });
+
+                    data = System.Text.Json.JsonSerializer.Deserialize<dynamic>(a1.ToString());                
+                }
+
+                //                System.IO.File.WriteAllText(path, o1.ToString());
+                //data = System.Text.Json.JsonSerializer.Deserialize<dynamic>(o1.ToString());
+                Save(path, data);
+            }
+            else
+            {
+                Save(path, data);
+            }
         }
 
         private string RequestPathToFilePath(string requestPath)
